@@ -7,9 +7,9 @@ django[bcrypt]
 feedparser
 djangorestframework
 requests
-selenium
+#selenium
 filter-and-pagination
 pdfkit
-matplotlib
-seaborn
-openpyxl
+#matplotlib
+#seaborn
+#openpyxl
