@@ -2,8 +2,8 @@ django
 django-ckeditor
 django-mathfilters
 Pillow
-django[argon2]
-django[bcrypt]
+#django[argon2]
+#django[bcrypt]
 feedparser
 djangorestframework
 requests
