@@ -4,8 +4,8 @@ django-mathfilters
 #Pillow
 #django[argon2]
 #django[bcrypt]
-feedparser
-djangorestframework
+#feedparser
+#djangorestframework
 requests
 #selenium
 filter-and-pagination
