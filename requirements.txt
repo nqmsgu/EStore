@@ -9,7 +9,7 @@ django-mathfilters
 requests
 #selenium
 filter-and-pagination
-pdfkit
+#pdfkit
 #matplotlib
 #seaborn
 #openpyxl
