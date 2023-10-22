@@ -1,0 +1,15 @@
+django
+django-ckeditor
+django-mathfilters
+Pillow
+django[argon2]
+django[bcrypt]
+feedparser
+djangorestframework
+requests
+selenium
+filter-and-pagination
+pdfkit
+matplotlib
+seaborn
+openpyxl

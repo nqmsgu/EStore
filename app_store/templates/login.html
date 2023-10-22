@@ -1,0 +1,198 @@
+{% extends '_Master.html' %} 
+{% load static %}
+{% load humanize %}
+        
+{% block main_content %}
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Login & Register</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Login Start -->
+        <div class="login">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">    
+                        <div class="register-form">
+                            <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ chuoi_kq_dang_ky|safe }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label>First Name</label>
+                                    <input class="form-control" type="text" placeholder="First Name" name="ho">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Last Name</label>
+                                    <input class="form-control" type="text" placeholder="Last Name" name="ten">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>E-mail</label>
+                                    <input class="form-control" type="text" placeholder="E-mail" name="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Password</label>
+                                    <input class="form-control" type="text" placeholder="Password" name="mat_khau">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Retype Password</label>
+                                    <input class="form-control" type="text" placeholder="Password" name="xac_nhan_mat_khau">
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Mobile No</label>
+                                    <input class="form-control" type="text" placeholder="Mobile No" name="dien_thoai">
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Tỉnh/Thành</label>
+                                    <select class="form-control" id="id_province" name="tinh_thanh">
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Quận/Huyện</label>
+                                    <select class="form-control" id="id_district" name="quan_huyen">
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Phường/Xã</label>
+                                    <select class="form-control" id="id_ward" name="phuong_xa">
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Address</label>
+                                    <textarea class="form-control" placeholder="Address" rows="3" name="dia_chi"></textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn" type="submit" name="btnDangKy" value="Register">Register</button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="login-form">
+                            <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ chuoi_kq_dang_nhap|safe }}
+                                </div>
+                                <div class="col-md-6">
+                                    <label>E-mail</label>
+                                    <input class="form-control" type="text" placeholder="E-mail" name="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Password</label>
+                                    <input class="form-control" type="password" placeholder="Password" name="mat_khau">
+                                </div>
+                                <!-- <div class="col-md-12">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="newaccount">
+                                        <label class="custom-control-label" for="newaccount">Keep me signed in</label>
+                                    </div>
+                                </div> -->
+                                <div class="col-md-12">
+                                    <button type="submit" name="btnDangNhap" value="Login" class="btn">Login</button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login End -->
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // Provinces
+                var province_arr = new Array{{ provinces|safe }};
+                $('#id_province').append($('<option>', {
+                        value: '0',
+                        text: 'Chọn Tỉnh/TP',
+                    }, '</option>'));
+                $.each(province_arr, function (i, item) {
+                    $('#id_province').append($('<option>', {
+                        value: item,
+                        text: item,
+                    }, '</option>'));
+                });
+            });
+    
+            // District
+            var districts = new Array{{ str_districts|safe }};
+            var d_a = new Array();
+            d_a[0] = 'Chọn Quận/Huyện';
+            {% for province in provinces %}
+                d_a['{{ province }}'] = districts[{{ forloop.counter0 }}];
+            {% endfor %}
+    
+            // Ward
+            var wards = new Array{{ str_wards|safe }};
+            var w_a = new Array();
+            {{ data_str_wards|safe }}
+            {% for district in list_districts %}
+                w_a['{{ district }}'] = wards[{{ forloop.counter0 }}];
+            {% endfor %}
+    
+            $('#id_province').change(function () {
+                var c = $(this).val();
+                var district_arr = d_a[c].split("|");
+                $('#id_district').empty();
+                $('#id_ward').empty();
+                if (c == '0') {
+                    $('#id_district').append($('<option>', {
+                        value: '0',
+                        text: 'Chọn Quận/Huyện',
+                    }, '</option>'));
+                } else {
+                    $('#id_district').append($('<option>', {
+                        value: '0',
+                        text: 'Chọn Quận/Huyện',
+                    }, '</option>'));
+                    $.each(district_arr, function (i, item_district) {
+                        $('#id_district').append($('<option>', {
+                            value: item_district,
+                            text: item_district,
+                        }, '</option>'));
+                    });
+                }
+                $('#id_ward').append($('<option>', {
+                    value: '0',
+                    text: 'Chọn Phường/Xã',
+                }, '</option>'));
+            });
+    
+            $('#id_district').change(function(){
+                var s = $(this).val();
+                if(s == '0'){
+                    $('#id_ward').empty();
+                    $('#id_ward').append($('<option>', {
+                        value: '0',
+                        text: 'Chọn Phường/Xã',
+                    }, '</option>'));
+                }
+                var ward_arr = w_a[s].split("|");
+                $('#id_ward').empty();
+                $('#id_ward').append($('<option>', {
+                        value: '0',
+                        text: 'Chọn Phường/Xã',
+                    }, '</option>'));
+                $.each(ward_arr, function (j, item_ward) {
+                    $('#id_ward').append($('<option>', {
+                        value: item_ward,
+                        text: item_ward,
+                    }, '</option>'));
+                });
+            });
+        </script>
+
+        {% endblock %}
